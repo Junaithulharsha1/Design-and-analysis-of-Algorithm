@@ -1,0 +1,26 @@
+#include<stdio.h>
+
+int isArm(int num){
+	int originalnum,remainder, sum = 0;
+	originalnum = num;
+	
+	while(originalnum != 0){
+		remainder = originalnum % 10;
+		sum += remainder * remainder * remainder;
+		originalnum /= 10;
+	}
+	return (sum == num);
+}
+
+int main(){
+	int num;
+	printf("Enter the number:");
+	scanf("%d", &num);
+	
+	if(isArm(num)){
+		printf("The %d is a Armstrong number.\n",num);
+	}else{
+		printf("It is not a Armstrong number");
+	}
+	return 0;
+}
