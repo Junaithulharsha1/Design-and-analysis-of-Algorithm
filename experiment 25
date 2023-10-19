@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define INFINITY 9999999
+
+int memoizationTable[1 << 15][15]; // Assuming up to 15 cities
+
+int tsp(int graph[15][15], int n, int start, int currentSet) {
+    if (currentSet == (1 << n) - 1) {
+        return graph[start][0]; // Return to the starting city
+    }
+
+    if (memoizationTable[currentSet][start] != -1) {
+        return memoizationTable[currentSet][start];
+    }
+
+    int minDistance = INFINITY;
+
+    for (int city = 0; city < n; city++) {
+        if (!(currentSet & (1 << city))) {
+            int newSet = currentSet | (1 << city);
+            int distance = graph[start][city] + tsp(graph, n, city, newSet);
+            minDistance = (distance < minDistance) ? distance : minDistance;
+        }
+    }
+
+    memoizationTable[currentSet][start] = minDistance;
+    return minDistance;
+}
+
+int solveTSP(int graph[15][15], int n) {
+    for (int i = 0; i < (1 << n); i++) {
+        for (int j = 0; j < n; j++) {
+            memoizationTable[i][j] = -1;
+        }
+    }
+    return tsp(graph, n, 0, 1); // Start from city 0 with a single city visited
+}
+
+int main() {
+    int n; // Number of cities
+    printf("Enter the number of cities: ");
+    scanf("%d", &n);
+
+    int graph[15][15]; // Adjacency matrix for distances
+    printf("Enter the adjacency matrix for distances:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    int minDistance = solveTSP(graph, n);
+    printf("The minimum distance for the TSP is: %d\n", minDistance);
+
+    return 0;
+}
