@@ -1,0 +1,22 @@
+#include <stdio.h>
+
+int main() {
+    int n = 4; // Number of rows in the pattern
+    int spaces, numbers;
+
+    for (int i = 1; i <= n; i++) {
+        // Print leading spaces
+        for (spaces = i; spaces < n; spaces++) {
+            printf("   ");
+        }
+
+        // Print the first set of numbers in ascending order
+        for (numbers = 1; numbers <= i; numbers++) {
+            printf("%2d   ", numbers);
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
